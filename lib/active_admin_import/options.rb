@@ -4,6 +4,7 @@ module ActiveAdminImport
     VALID_OPTIONS = [
       :back,
       :csv_options,
+      :file_open_option,
       :validate,
       :batch_size,
       :batch_transaction,
