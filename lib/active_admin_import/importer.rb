@@ -17,7 +17,8 @@ module ActiveAdminImport
       :headers_rewrites,
       :batch_size,
       :batch_transaction,
-      :csv_options
+      :csv_options,
+      :file_open_option
     ].freeze
 
     def initialize(resource, model, options)
@@ -68,12 +69,16 @@ module ActiveAdminImport
       headers.values.index(header_key)
     end
 
+    def file_open_option
+      @file_open_option ||= options[:file_open_option]
+    end
+
     protected
 
     def process_file
       lines = []
       batch_size = options[:batch_size].to_i
-      File.open(file.path) do |f|
+      File.open(file.path, file_open_option) do |f|
         # capture headers if not exist
         prepare_headers { CSV.parse(f.readline, @csv_options).first }
         f.each_line do |line|
